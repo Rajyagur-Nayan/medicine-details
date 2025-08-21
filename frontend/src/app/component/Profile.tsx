@@ -32,7 +32,7 @@ export function ProfileDialog({ isOpen, onClose }: ProfileDialogProps) {
   useEffect(() => {
     if (!isOpen) return;
 
-    fetch("http://localhost:8080/profile", {
+    fetch("https://medicine-details.onrender.com/profile", {
       method: "GET",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

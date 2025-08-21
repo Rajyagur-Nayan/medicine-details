@@ -24,8 +24,8 @@ export function RegisterDialog({ onClose }: any) {
       return;
     }
     try {
-       await axios.post(
-        "http://localhost:8080/signup/",
+      await axios.post(
+        "https://medicine-details.onrender.com/signup/",
         {
           name,
           email,

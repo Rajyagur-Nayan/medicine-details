@@ -21,7 +21,7 @@ export function LoginDialog({ onClose }: any) {
     event.preventDefault();
     await axios
       .post(
-        "http://localhost:8080/login",
+        "https://medicine-details.onrender.com/login",
         { email, password },
         {
           withCredentials: true,

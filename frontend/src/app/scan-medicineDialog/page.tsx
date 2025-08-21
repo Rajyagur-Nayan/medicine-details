@@ -42,7 +42,7 @@ export default function ScanMedicine() {
     }
 
     try {
-      const res = await fetch("http://localhost:8080/scan", {
+      const res = await fetch("https://medicine-details.onrender.com/scan", {
         method: "POST",
         body: formData,
         credentials: "include",
