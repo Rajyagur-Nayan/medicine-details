@@ -64,10 +64,13 @@ export function ProfileDialog({ isOpen, onClose }: ProfileDialogProps) {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <AnimatePresence>
         {isOpen && (
-          <DialogContent className="sm:max-w-md bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md shadow-xl overflow-hidden">
+          <DialogContent
+            showCloseButton={false}
+            className="sm:max-w-md bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md shadow-xl overflow-hidden"
+          >
             <motion.div
               key="profile-dialog"
               initial={{ opacity: 0, scale: 0.9, y: 50 }}
@@ -81,7 +84,6 @@ export function ProfileDialog({ isOpen, onClose }: ProfileDialogProps) {
                   Profile
                 </DialogTitle>
               </DialogHeader>
-
               {/* User Info */}
               <div className="p-6 flex flex-col items-center gap-3">
                 <motion.div
@@ -111,7 +113,6 @@ export function ProfileDialog({ isOpen, onClose }: ProfileDialogProps) {
                   </p>
                 </motion.div>
               </div>
-
               {/* Profile Form */}
               <motion.div
                 className="px-6 py-3"
