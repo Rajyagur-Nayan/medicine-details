@@ -1,55 +1,59 @@
 "use client";
-// src/components/layout/header.tsx
 import { Button } from "@/components/ui/button";
-import { Menu, User, Tablet, X } from "lucide-react"; // Import all necessary icons
+import { Menu, User, Tablet, X } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react"; // Import useState hook
+import React, { useState } from "react";
 import { LoginDialog } from "./auth/Login";
 import { RegisterDialog } from "./auth/Register";
 import { useAuth } from "./auth/AuthContext";
 import { ProfileDialog } from "./Profile";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State to manage mobile menu visibility
-  const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false); // State to manage profile dialog visibility, set to true to open by default
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
     <header className="flex h-16 items-center justify-between px-4 lg:px-8 border-b dark:bg-gray-900 dark:text-white text-black border-gray-200 bg-white">
-      {/* Logo */}
-      <div className="flex items-center gap-2">
-        {/* Placeholder for actual logo image */}
+      {/* Logo with animation */}
+      <motion.div
+        className="flex items-center gap-2"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <Tablet className="h-6 w-6 text-blue-600" />
         <span className="text-xl font-bold text-blue-700">MediLink</span>
-      </div>
+      </motion.div>
 
       {/* Navigation Links (Desktop) */}
       <nav className="hidden md:flex items-center gap-6">
-        <Link // Changed from Link to a
-          href="/"
-          className="text-gray-600  dark:text-white hover:text-blue-600 text-sm font-medium transition-colors"
-        >
-          Home
-        </Link>
-
-        <a
-          href="scan-medicineDialog"
-          className="text-gray-600 dark:text-white hover:text-blue-600 text-sm font-medium transition-colors"
-        >
-          Scan Now
-        </a>
-        <a
-          href="help"
-          className="text-gray-600 dark:text-white hover:text-blue-600 text-sm font-medium transition-colors"
-        >
-          Help
-        </a>
+        {["Home", "Scan Now", "Help"].map((item, idx) => (
+          <motion.div
+            key={item}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <Link
+              href={
+                item === "Home"
+                  ? "/"
+                  : item === "Scan Now"
+                  ? "scan-medicineDialog"
+                  : "help"
+              }
+              className="text-gray-600 dark:text-white hover:text-blue-600 text-sm font-medium transition-colors"
+            >
+              {item}
+            </Link>
+          </motion.div>
+        ))}
       </nav>
 
       {/* Search Input and User/Menu Icons */}
@@ -81,6 +85,7 @@ export function Header() {
           <RegisterDialog onClose={() => setIsRegisterDialogOpen(false)} />
         )}
 
+        {/* Profile Button */}
         <Button
           variant="ghost"
           size="icon"
@@ -94,16 +99,17 @@ export function Header() {
           <span className="sr-only">User</span>
         </Button>
 
+        {/* Mobile Menu Button */}
         <Button
           variant="ghost"
           size="icon"
           className="md:hidden"
-          onClick={toggleMobileMenu} // Add onClick handler
+          onClick={toggleMobileMenu}
         >
           {isMobileMenuOpen ? (
-            <X className="h-5 w-5 text-gray-600 cursor-pointer" /> // Show close icon when menu is open
+            <X className="h-5 w-5 text-gray-600 cursor-pointer" />
           ) : (
-            <Menu className="h-5 w-5 text-gray-600 cursor-pointer" /> // Show menu icon when menu is closed
+            <Menu className="h-5 w-5 text-gray-600 cursor-pointer" />
           )}
           <span className="sr-only">
             {isMobileMenuOpen ? "Close menu" : "Toggle menu"}
@@ -111,49 +117,54 @@ export function Header() {
         </Button>
       </div>
 
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white border-b border-gray-200 shadow-md md:hidden z-50">
-          <nav className="flex flex-col items-center py-4 gap-4">
-            <Link
-              href="/"
-              className="text-gray-700 dark:text-white hover:text-blue-600 text-base font-medium transition-colors"
-              onClick={toggleMobileMenu} // Close menu on link click
-            >
-              Home
-            </Link>
+      {/* Mobile Menu with animation */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="absolute top-16 left-0 w-full bg-white border-b border-gray-200 shadow-md md:hidden z-50"
+          >
+            <nav className="flex flex-col items-center py-4 gap-4">
+              <Link
+                href="/"
+                className="text-gray-700 dark:text-white hover:text-blue-600 text-base font-medium transition-colors"
+                onClick={toggleMobileMenu}
+              >
+                Home
+              </Link>
+              <Link
+                href="scan-medicineDialog"
+                className="text-blue-600 font-semibold text-base"
+                onClick={toggleMobileMenu}
+              >
+                Scan Now
+              </Link>
+              <Link
+                href="help"
+                className="text-gray-700 dark:text-white hover:text-blue-600 text-base font-medium transition-colors"
+                onClick={toggleMobileMenu}
+              >
+                Help
+              </Link>
 
-            <Link // Changed from Link to a
-              href="scan-medicineDialog"
-              className="text-blue-600 font-semibold text-base"
-              onClick={toggleMobileMenu} // Close menu on link click
-            >
-              Scan Now
-            </Link>
-            <Link // Changed from Link to a
-              href="help"
-              className="text-gray-700 dark:text-white hover:text-blue-600 text-base font-medium transition-colors"
-              onClick={toggleMobileMenu} // Close menu on link click
-            >
-              Help
-            </Link>
-
-            <Button
-              variant="ghost"
-              className="w-full text-gray-700 dark:text-white hover:text-blue-600"
-              onClick={() => {
-                setIsProfileDialogOpen(true);
-                setIsMobileMenuOpen(false); // Close mobile menu when opening dialog
-              }}
-            >
-              <User className="h-5 w-5 mr-2" />
-              User Profile
-            </Button>
-          </nav>
-        </div>
-      )}
-
-      {/* Profile Dialog */}
+              <Button
+                variant="ghost"
+                className="w-full text-gray-700 dark:text-white hover:text-blue-600"
+                onClick={() => {
+                  setIsProfileDialogOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                <User className="h-5 w-5 mr-2" />
+                User Profile
+              </Button>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

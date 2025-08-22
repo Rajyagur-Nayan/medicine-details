@@ -70,17 +70,26 @@ export default function ScanMedicine() {
       <motion.form
         onSubmit={handleSubmit}
         className="p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 shadow-xl backdrop-blur-md border border-gray-200 dark:border-gray-800 space-y-6"
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <h2 className="text-2xl font-bold text-center bg-gradient-to-r from-emerald-600 to-green-400 bg-clip-text text-transparent">
+        <motion.h2
+          className="text-2xl font-bold text-center bg-gradient-to-r from-emerald-600 to-green-400 bg-clip-text text-transparent"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           🧪 Scan Your Medicine
-        </h2>
+        </motion.h2>
 
         {/* Input Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
+          <motion.div
+            className="space-y-2"
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 200 }}
+          >
             <Label className="text-gray-700 dark:text-gray-300">
               Medicine Name
             </Label>
@@ -90,9 +99,13 @@ export default function ScanMedicine() {
               placeholder="Enter medicine name"
               className="rounded-xl border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-emerald-500"
             />
-          </div>
+          </motion.div>
 
-          <div className="space-y-2">
+          <motion.div
+            className="space-y-2"
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 200 }}
+          >
             <Label className="text-gray-700 dark:text-gray-300">
               Medicine Code
             </Label>
@@ -102,7 +115,7 @@ export default function ScanMedicine() {
               placeholder="Enter code"
               className="rounded-xl border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-emerald-500"
             />
-          </div>
+          </motion.div>
         </div>
 
         {/* Image Upload */}
@@ -120,8 +133,10 @@ export default function ScanMedicine() {
           {uploadedImage && (
             <motion.div
               className="w-36 h-36 relative mt-4 rounded-xl overflow-hidden shadow-lg ring-2 ring-emerald-500"
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 150 }}
+              whileHover={{ scale: 1.05 }}
             >
               <Image
                 src={uploadedImage}
@@ -134,23 +149,25 @@ export default function ScanMedicine() {
         </div>
 
         {/* Button */}
-        <Button
-          type="submit"
-          disabled={loading}
-          className="w-full py-3 text-lg font-medium bg-gradient-to-r from-emerald-600 to-green-500 text-white rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
-        >
-          {loading ? (
-            <>
-              <Loader2 className="w-5 h-5 animate-spin" />
-              Scanning...
-            </>
-          ) : (
-            <>
-              <Upload className="w-5 h-5" />
-              Scan Now
-            </>
-          )}
-        </Button>
+        <motion.div whileTap={{ scale: 0.95 }}>
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 text-lg font-medium bg-gradient-to-r from-emerald-600 to-green-500 text-white rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Scanning...
+              </>
+            ) : (
+              <>
+                <Upload className="w-5 h-5" />
+                Scan Now
+              </>
+            )}
+          </Button>
+        </motion.div>
       </motion.form>
 
       {/* Result */}
@@ -159,7 +176,7 @@ export default function ScanMedicine() {
           <motion.div
             key="result"
             className="p-8 rounded-2xl bg-gradient-to-br from-emerald-50 to-green-100 mb-10 dark:from-gray-900 dark:to-gray-800 shadow-2xl border border-emerald-200 dark:border-gray-700"
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
             transition={{ duration: 0.6 }}
@@ -182,9 +199,15 @@ export default function ScanMedicine() {
 
                 {result.data.possible_fake_reasons?.length > 0 && (
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: {
+                        opacity: 1,
+                        transition: { staggerChildren: 0.15 },
+                      },
+                    }}
                   >
                     <strong className="text-red-600 dark:text-red-400">
                       ⚠ Possible Fake Reasons:
@@ -194,9 +217,10 @@ export default function ScanMedicine() {
                         (reason: string, idx: number) => (
                           <motion.li
                             key={idx}
-                            initial={{ x: -10, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ delay: idx * 0.1 }}
+                            variants={{
+                              hidden: { x: -10, opacity: 0 },
+                              visible: { x: 0, opacity: 1 },
+                            }}
                           >
                             {reason}
                           </motion.li>

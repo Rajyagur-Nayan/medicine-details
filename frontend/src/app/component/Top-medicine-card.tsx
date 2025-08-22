@@ -1,5 +1,7 @@
 // src/components/top-medicine-card.tsx
+"use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface TopMedicineCardProps {
   imageSrc: string;
@@ -13,12 +15,21 @@ export function TopMedicineCard({
   imageSrc,
   imageAlt,
   title,
+  description,
   price,
 }: TopMedicineCardProps) {
   return (
-    <div className="relative w-full h-80 rounded-lg overflow-hidden shadow-md bg-white">
+    <motion.div
+      className="relative w-full h-96 rounded-xl overflow-hidden shadow-md bg-white dark:bg-gray-800"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      viewport={{ once: true }}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+    >
       {/* Image */}
-      <div className="relative h-3/4 w-full">
+      <div className="relative h-2/3 w-full">
         <Image
           src={imageSrc}
           alt={imageAlt}
@@ -28,14 +39,18 @@ export function TopMedicineCard({
         />
       </div>
 
-      {/* Bottom Info Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 bg-blue-500 text-white h-1/4 flex flex-col justify-center rounded-b-lg">
-        <p className="text-xs tracking-wide uppercase opacity-80">
-          Pain Relievers
-        </p>
-        <h3 className="text-lg font-bold truncate">{title}</h3>
-        <p className="text-sm font-medium mt-1">from ${price.toFixed(2)}</p>
+      {/* Content Section */}
+      <div className="relative h-1/3 w-full p-4 flex flex-col justify-between bg-gradient-to-t from-blue-600 to-blue-500 text-white">
+        <div>
+          <h3 className="text-lg font-bold truncate">{title}</h3>
+          <p className="text-sm opacity-90 mt-1 line-clamp-2">{description}</p>
+        </div>
+        <div className="mt-3">
+          <span className="inline-block bg-white text-blue-600 font-semibold text-sm px-3 py-1 rounded-full shadow">
+            ${price.toFixed(2)}
+          </span>
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

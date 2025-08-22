@@ -27,9 +27,8 @@ export function LoginDialog({ onClose }: any) {
           withCredentials: true,
         }
       )
-      .then((response) => {
+      .then(() => {
         toast.success("Login successful");
-        console.log("Login successful:", response.data);
         if (typeof onClose === "function") {
           onClose();
         }

@@ -1,11 +1,26 @@
 // src/components/sections/recent-searches.tsx
+"use client";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 export function RecentSearches() {
   return (
-    <section className="bg-gray-50 dark:bg-gray-900/70 py-4 px-4 lg:px-8 border-b border-gray-200">
+    <motion.section
+      className="bg-gray-50 dark:bg-gray-900/70 py-4 px-4 lg:px-8 border-b border-gray-200"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      viewport={{ once: true }}
+    >
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-700 dark:text-white">
+        {/* Text Info */}
+        <motion.div
+          className="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-700 dark:text-white"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
           <div className="flex items-center gap-2">
             <span className="font-semibold">Last searches:</span>
             <span>Aspirin</span>
@@ -18,14 +33,25 @@ export function RecentSearches() {
             <span className="font-semibold">Results:</span>
             <span>2 founds</span>
           </div>
-        </div>
-        <Button
-          variant="secondary"
-          className="bg-blue-100  text-blue-700 hover:bg-blue-200 px-6 py-2 rounded-md text-sm font-medium transition-colors duration-300"
+        </motion.div>
+
+        {/* Animated Button */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          viewport={{ once: true }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          Search
-        </Button>
+          <Button
+            variant="secondary"
+            className="bg-blue-100 text-blue-700 hover:bg-blue-200 px-6 py-2 rounded-md text-sm font-medium transition-colors duration-300"
+          >
+            Search
+          </Button>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }
