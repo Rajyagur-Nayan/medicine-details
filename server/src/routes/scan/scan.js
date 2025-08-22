@@ -30,10 +30,6 @@ router.post("/", upload.single("image"), async (req, res) => {
     if (!medicine_name || !file) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-    // if (!login_token) {
-    //   return res.status(400).json({ error: "you are not login" });
-    // }
-
     // Upload image to Cloudinary
     const cloudRes = await cloudinary.uploader.upload(file.path, {
       folder: "medicines",
@@ -43,7 +39,6 @@ router.post("/", upload.single("image"), async (req, res) => {
     fs.unlinkSync(file.path);
 
     const imageUrl = cloudRes.secure_url;
-    const data = verifyToken(login_token);
 
     const prompt = generatePrompt(medicine_name, imageUrl, code);
     const reply = await getGeminiResponse(prompt);

@@ -89,14 +89,14 @@ export function Header() {
         <Button
           variant="ghost"
           size="icon"
-          className="hidden md:flex cursor-pointer"
+          className="hidden bg-black md:flex cursor-pointer"
           onClick={() => setIsProfileDialogOpen(true)}
         >
           <ProfileDialog
             isOpen={isProfileDialogOpen}
             onClose={() => setIsProfileDialogOpen(false)}
           />
-          <span className="sr-only">User</span>
+          <span className="sr-only bg-amber-50 ">User</span>
         </Button>
 
         {/* Mobile Menu Button */}
