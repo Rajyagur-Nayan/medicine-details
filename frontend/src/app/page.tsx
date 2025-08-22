@@ -15,7 +15,9 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/");
+        const response = await axios.get(
+          "https://medicine-details.onrender.com/"
+        );
         console.log("API response:", response.data);
       } catch (error) {
         console.error("API error:", error);

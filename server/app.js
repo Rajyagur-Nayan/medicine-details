@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3001", // your frontend URL
+    origin: "https://medicine-details.vercel.app", // your frontend URL
     credentials: true, // allow cookies
   })
 );
