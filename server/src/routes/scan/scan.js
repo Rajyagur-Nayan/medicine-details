@@ -21,7 +21,6 @@ cloudinary.config({
 
 router.post("/", upload.single("image"), async (req, res) => {
   try {
-    const login_token = req.cookies.login_token;
     const { medicine_name, medicine_code } = req.body;
     const file = req.file;
 
@@ -31,9 +30,9 @@ router.post("/", upload.single("image"), async (req, res) => {
     if (!medicine_name || !file) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-    if (!login_token) {
-      return res.status(400).json({ error: "you are not login" });
-    }
+    // if (!login_token) {
+    //   return res.status(400).json({ error: "you are not login" });
+    // }
 
     // Upload image to Cloudinary
     const cloudRes = await cloudinary.uploader.upload(file.path, {
