@@ -48,6 +48,8 @@ router.post("/", async (req, res) => {
         sameSite: "none", // <-- important
         secure: true, // <-- required in Render (HTTPS)
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        domain: "medicine-details.vercel.app", // 👈 important
+        path: "/",  // 👈 applies to ALL paths on this domain
       })
       .json({ login_token: token, data });
   } catch (error) {
