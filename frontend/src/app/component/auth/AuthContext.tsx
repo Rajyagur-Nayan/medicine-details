@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-
 interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
