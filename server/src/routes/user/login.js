@@ -48,7 +48,6 @@ router.post("/", async (req, res) => {
         sameSite: "none",
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        domain: "medicine-details.vercel.app",      // 👈 allow all subpaths of your domain
         path: "/",                  // 👈 valid everywhere
       })
       .json({ login_token: token, data });
