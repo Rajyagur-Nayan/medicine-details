@@ -48,7 +48,6 @@ router.post("/", async (req, res) => {
         sameSite: "none",
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        path: "/",
       })
       .json({ login_token: token, data });
   } catch (error) {
