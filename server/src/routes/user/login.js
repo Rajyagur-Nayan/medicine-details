@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
     res
       .status(200)
       .cookie("login_token", token, {
-        httpOnly: false,            // ❌ not secure for auth, but okay for testing
+        httpOnly: true,            // ❌ not secure for auth, but okay for testing
         sameSite: "none",
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
