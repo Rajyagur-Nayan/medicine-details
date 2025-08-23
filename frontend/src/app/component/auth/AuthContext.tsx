@@ -13,14 +13,19 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    const storedToken = Cookies.get("login_token");
-    console.log(storedToken);
+  // useEffect(() => {
+  //   const storedToken = Cookies.get("login_token");
+  //   console.log(storedToken);
 
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  }, []);
+  //   if (storedToken) {
+  //     setToken(storedToken);
+  //   }
+  // }, []);
+
+  useEffect(() => {
+  const storedToken = localStorage.getItem("login_token");
+  if (storedToken) setToken(storedToken);
+}, []);
 
   const logout = () => {
     Cookies.remove("login_token");
